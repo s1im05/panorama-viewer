@@ -12,6 +12,13 @@ export class Panorama {
     public cameraTarget: Vector3;
 
     public coordinates: PanoramaCoordinates;
+    public lastState: PanoramaState = {
+        animated: false,
+        onMouseDownLat: 0,
+        onMouseDownLon: 0,
+        onMouseDownMouseX: 0,
+        onMouseDownMouseY: 0
+    };
     public isAnimated = false;
 
     private _focalLength: number;
@@ -31,7 +38,7 @@ export class Panorama {
             CAMERA_DEFAULT_FOV,
             this.containerEl.clientWidth / this.containerEl.clientHeight, 1, 1100);
         this._focalLength = +this.camera.getFocalLength();
-        this.cameraTarget = new THREE.Vector3( 0, 0, 0 );
+        this.cameraTarget = new THREE.Vector3(0, 0, 0);
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -59,7 +66,7 @@ export class Panorama {
     }
 
     updateCameraTarget() {
-        this.coordinates.lat = Math.max( - 85, Math.min( 85, this.coordinates.lat ) );
+        this.coordinates.lat = Math.max(-85, Math.min(85, this.coordinates.lat));
         this.coordinates.phi = THREE.Math.degToRad(90 - this.coordinates.lat);
         this.coordinates.theta = THREE.Math.degToRad(this.coordinates.lon);
 
@@ -109,34 +116,46 @@ export class Panorama {
     }
 
     addEventHandlers() {
-        let onMouseDownMouseX, onMouseDownMouseY, onMouseDownLon, onMouseDownLat, animated;
+        this.containerEl.addEventListener('mousedown', this.mouseDownHandler.bind(this));
+        this.containerEl.addEventListener('mousemove', this.mouseMoveHandler.bind(this));
+        this.containerEl.addEventListener('mouseup', this.mouseUpHandler.bind(this));
+        this.containerEl.addEventListener('mousewheel', this.mouseWheelHandler.bind(this));
+    }
 
-        this.containerEl.addEventListener('mousedown', (e: MouseEvent) => {
-            e.preventDefault();
+    mouseDownHandler(e: MouseEvent) {
+        e.preventDefault();
 
-            animated = this.isAnimated;
-            this.isAnimated = false;
-            this._userInteract = true;
+        this.lastState.animated = this.isAnimated;
+        this.isAnimated = false;
+        this._userInteract = true;
 
-            onMouseDownMouseX = e.clientX;
-            onMouseDownMouseY = e.clientY;
+        this.lastState.onMouseDownMouseX = e.clientX;
+        this.lastState.onMouseDownMouseY = e.clientY;
 
-            onMouseDownLon = this.coordinates.lon;
-            onMouseDownLat = this.coordinates.lat;
-        });
+        this.lastState.onMouseDownLon = this.coordinates.lon;
+        this.lastState.onMouseDownLat = this.coordinates.lat;
+    }
 
-        this.containerEl.addEventListener('mousemove', (e: MouseEvent) => {
-            e.preventDefault();
-            if (this._userInteract) {
-                this.coordinates.lon = ( onMouseDownMouseX - e.clientX ) * 0.1 + onMouseDownLon;
-                this.coordinates.lat = ( e.clientY - onMouseDownMouseY ) * 0.1 + onMouseDownLat;
-            }
-        });
+    mouseMoveHandler(e: MouseEvent) {
+        e.preventDefault();
+        if (this._userInteract) {
+            this.coordinates.lon = (this.lastState.onMouseDownMouseX - e.clientX) * 0.1 + this.lastState.onMouseDownLon;
+            this.coordinates.lat = (e.clientY - this.lastState.onMouseDownMouseY) * 0.1 + this.lastState.onMouseDownLat;
+        }
+    }
 
-        this.containerEl.addEventListener('mouseup', (e: MouseEvent) => {
-            e.preventDefault();
-            this._userInteract = false;
-            this.isAnimated = animated;
-        });
+    mouseUpHandler(e: MouseEvent) {
+        e.preventDefault();
+        this._userInteract = false;
+        this.isAnimated = this.lastState.animated;
+    }
+
+    mouseWheelHandler(e: WheelEvent) {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+            this.increaseFocalLength();
+        } else {
+            this.decreaseFocalLength();
+        }
     }
 }
