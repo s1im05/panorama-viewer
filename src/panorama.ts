@@ -164,6 +164,8 @@ export class Panorama {
     }
 
     touchStart(e: TouchEvent) {
+        e.preventDefault();
+
         this.lastState.animated = this.isAnimated;
         this.isAnimated = false;
         this._userInteract = true;
@@ -176,6 +178,8 @@ export class Panorama {
     }
 
     touchMove(e: TouchEvent) {
+        e.preventDefault();
+
         if (this._userInteract) {
             this.coordinates.lon = (this.lastState.onMouseDownMouseX - e.touches[0].clientX) * 0.1 + this.lastState.onMouseDownLon;
             this.coordinates.lat = (e.touches[0].clientY - this.lastState.onMouseDownMouseY) * 0.1 + this.lastState.onMouseDownLat;
@@ -183,6 +187,8 @@ export class Panorama {
     }
 
     touchEnd(e: TouchEvent) {
+        e.preventDefault();
+
         this._userInteract = false;
         this.isAnimated = this.lastState.animated;
     }
