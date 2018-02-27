@@ -120,6 +120,10 @@ export class Panorama {
         this.containerEl.addEventListener('mousemove', this.mouseMoveHandler.bind(this));
         this.containerEl.addEventListener('mouseup', this.mouseUpHandler.bind(this));
         this.containerEl.addEventListener('mousewheel', this.mouseWheelHandler.bind(this));
+
+        this.containerEl.addEventListener('touchstart', this.touchStart.bind(this));
+        this.containerEl.addEventListener('touchmove', this.touchMove.bind(this));
+        this.containerEl.addEventListener('touchend', this.touchEnd.bind(this));
     }
 
     mouseDownHandler(e: MouseEvent) {
@@ -157,5 +161,29 @@ export class Panorama {
         } else {
             this.decreaseFocalLength();
         }
+    }
+
+    touchStart(e: TouchEvent) {
+        this.lastState.animated = this.isAnimated;
+        this.isAnimated = false;
+        this._userInteract = true;
+
+        this.lastState.onMouseDownMouseX = e.touches[0].clientX;
+        this.lastState.onMouseDownMouseY = e.touches[0].clientY;
+
+        this.lastState.onMouseDownLon = this.coordinates.lon;
+        this.lastState.onMouseDownLat = this.coordinates.lat;
+    }
+
+    touchMove(e: TouchEvent) {
+        if (this._userInteract) {
+            this.coordinates.lon = (this.lastState.onMouseDownMouseX - e.touches[0].clientX) * 0.1 + this.lastState.onMouseDownLon;
+            this.coordinates.lat = (e.touches[0].clientY - this.lastState.onMouseDownMouseY) * 0.1 + this.lastState.onMouseDownLat;
+        }
+    }
+
+    touchEnd(e: TouchEvent) {
+        this._userInteract = false;
+        this.isAnimated = this.lastState.animated;
     }
 }
