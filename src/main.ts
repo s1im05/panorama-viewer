@@ -4,12 +4,10 @@ import {Panorama} from './panorama';
 import {PANORAMA_TILES_ORDER} from './const';
 
 (() => {
+    document.getElementById('preloader').remove();
+
     const panorama = new Panorama('container',
         PANORAMA_TILES_ORDER.map(pos => `assets/tile_${pos}_0_0_0.jpg`));
-
-    setTimeout(() => {
-        panorama.images = PANORAMA_TILES_ORDER.map(pos => `assets/p2/tile_${pos}.jpg`);
-    }, 5 * 1000);
 
     document.getElementById('btn_inc').addEventListener('click', (event) => {
         panorama.increaseFocalLength();
@@ -64,4 +62,6 @@ import {PANORAMA_TILES_ORDER} from './const';
             }
         }
     });
+
+    document.getElementById('panel').style.display = 'block';
 })();
