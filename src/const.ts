@@ -1,3 +1,4 @@
+export const PANORAMA_TILES_ORDER = [1, 0, 3, 2, 4, 5];
 
 export const PANORAMA_RADIUS = 500;
 
