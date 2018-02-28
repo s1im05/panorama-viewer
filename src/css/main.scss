@@ -17,11 +17,60 @@ body {
 }
 
 #panel {
+    opacity: .33;
     z-index: 10;
     position: fixed;
-    padding: 10px;
-    vert-align: bottom;
+    padding: 5px 10px;
     top: 10px;
     right: 10px;
-    background: rgba(256,256,256,.5);
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    user-select: none;
+
+    &:hover {
+        opacity: 1;
+    }
+    .btn {
+        $size: 36px;
+        display: inline-block;
+        width: $size;
+        height: $size;
+        cursor: pointer;
+        vertical-align: middle;
+        &.btn-add {
+            background-image: url('../../assets/icons/ic_add_white_36dp_1x.png');
+        }
+        &.btn-remove {
+            background-image: url('../../assets/icons/ic_remove_white_36dp_1x.png');
+        }
+    }
+    .checkbox {
+        $size: 24px;
+        width: $size;
+        height: 0;
+        position: relative;
+        &:after {
+            top: -1 * $size / 2 - 4;
+            content: '';
+            cursor: pointer;
+            width: $size;
+            height: $size;
+            position: absolute;
+            background-image: url('../../assets/icons/ic_check_box_outline_blank_white_24dp_1x.png');
+        }
+        &:checked {
+            &:after {
+                background-image: url('../../assets/icons/ic_check_box_white_24dp_1x.png');
+            }
+        }
+    }
+    .btn, .checkbox {
+        opacity: .75;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    label {
+        cursor: pointer;
+    }
 }

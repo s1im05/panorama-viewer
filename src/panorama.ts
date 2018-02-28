@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import {Vector3} from 'three';
 import {CAMERA_DEFAULT_FOV, CAMERA_MAX_FOCAL_LENGTH, CAMERA_MIN_FOCAL_LENGTH, PANORAMA_RADIUS} from './const';
 
 
@@ -9,7 +8,7 @@ export class Panorama {
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
-    public cameraTarget: Vector3;
+    public cameraTarget: THREE.Vector3;
 
     public coordinates: PanoramaCoordinates;
     public lastState: PanoramaState = {
@@ -91,18 +90,16 @@ export class Panorama {
 
     buildSkyBox() {
         const materials = [],
-            pushImage = (pos: number) => {
-                materials.push(new THREE.MeshBasicMaterial({
+            order = [1, 0, 3, 2, 4, 5];
+
+        order.forEach(pos => {
+            materials.push(
+                new THREE.MeshBasicMaterial({
                     map: new THREE.TextureLoader().load(`assets/tile_${pos}_0_0_0.jpg`),
                     side: THREE.FrontSide
-                }));
-            };
-        pushImage(1);
-        pushImage(0);
-        pushImage(3); // top
-        pushImage(2); // bottom
-        pushImage(4);
-        pushImage(5);
+                })
+            );
+        });
 
         const skyBox = new THREE.Mesh(new THREE.BoxGeometry(1000, 1000, 1000), new THREE.MultiMaterial(materials));
         skyBox.geometry.scale(1, 1, -1);
