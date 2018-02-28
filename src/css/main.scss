@@ -38,10 +38,10 @@ body {
         cursor: pointer;
         vertical-align: middle;
         &.btn-add {
-            background-image: url('../../assets/icons/ic_add_white_36dp_1x.png');
+            background-image: url('icons/ic_add_white_36dp_1x.png');
         }
         &.btn-remove {
-            background-image: url('../../assets/icons/ic_remove_white_36dp_1x.png');
+            background-image: url('icons/ic_remove_white_36dp_1x.png');
         }
     }
     .checkbox {
@@ -56,11 +56,11 @@ body {
             width: $size;
             height: $size;
             position: absolute;
-            background-image: url('../../assets/icons/ic_check_box_outline_blank_white_24dp_1x.png');
+            background-image: url('icons/ic_check_box_outline_blank_white_24dp_1x.png');
         }
         &:checked {
             &:after {
-                background-image: url('../../assets/icons/ic_check_box_white_24dp_1x.png');
+                background-image: url('icons/ic_check_box_white_24dp_1x.png');
             }
         }
     }
