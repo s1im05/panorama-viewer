@@ -3,7 +3,8 @@ import './polyfills';
 import {Panorama} from './panorama';
 
 (() => {
-    const panorama = new Panorama('container');
+    const panorama = new Panorama('container',
+        [1, 0, 3, 2, 4, 5].map(pos => `assets/tile_${pos}_0_0_0.jpg`));
 
     document.getElementById('btn_inc').addEventListener('click', (event) => {
         panorama.increaseFocalLength();

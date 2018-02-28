@@ -24,7 +24,7 @@ export class Panorama {
     private _userInteract = false;
 
 
-    constructor(public containerId: string) {
+    constructor(public containerId: string, public images: string[]) {
         this.init();
         this.update();
     }
@@ -89,13 +89,12 @@ export class Panorama {
     }
 
     buildSkyBox() {
-        const materials = [],
-            order = [1, 0, 3, 2, 4, 5];
+        const materials = [];
 
-        order.forEach(pos => {
+        this.images.forEach(image => {
             materials.push(
                 new THREE.MeshBasicMaterial({
-                    map: new THREE.TextureLoader().load(`assets/tile_${pos}_0_0_0.jpg`),
+                    map: new THREE.TextureLoader().load(image),
                     side: THREE.FrontSide
                 })
             );
