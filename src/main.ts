@@ -6,6 +6,10 @@ import {Panorama} from './panorama';
     const panorama = new Panorama('container',
         [1, 0, 3, 2, 4, 5].map(pos => `assets/tile_${pos}_0_0_0.jpg`));
 
+    setTimeout(() => {
+        panorama.images = [1, 0, 3, 2, 4, 5].map(pos => `assets/p2/tile_${pos}.jpg`);
+    }, 10 * 1000);
+
     document.getElementById('btn_inc').addEventListener('click', (event) => {
         panorama.increaseFocalLength();
     });

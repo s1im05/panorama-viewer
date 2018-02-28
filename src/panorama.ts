@@ -22,10 +22,13 @@ export class Panorama {
 
     private _focalLength: number;
     private _userInteract = false;
+    private _materials: THREE.MeshBasicMaterial[];
+    private _skyBox: THREE.Mesh;
 
 
-    constructor(public containerId: string, public images: string[]) {
+    constructor(public containerId: string, imageList: string[]) {
         this.init();
+        this.images = imageList;
         this.update();
     }
 
@@ -89,20 +92,22 @@ export class Panorama {
     }
 
     buildSkyBox() {
-        const materials = [];
+        this._skyBox = new THREE.Mesh(new THREE.BoxGeometry(1000, 1000, 1000));
+        this._skyBox.geometry.scale(1, 1, -1);
+        this.scene.add(this._skyBox);
+    }
 
-        this.images.forEach(image => {
-            materials.push(
+    set images(list: string[]) {
+        this._materials = [];
+        list.forEach(image => {
+            this._materials.push(
                 new THREE.MeshBasicMaterial({
                     map: new THREE.TextureLoader().load(image),
                     side: THREE.FrontSide
                 })
             );
         });
-
-        const skyBox = new THREE.Mesh(new THREE.BoxGeometry(1000, 1000, 1000), new THREE.MultiMaterial(materials));
-        skyBox.geometry.scale(1, 1, -1);
-        this.scene.add(skyBox);
+        this._skyBox.material = new THREE.MultiMaterial(this._materials);
     }
 
     onResize() {
