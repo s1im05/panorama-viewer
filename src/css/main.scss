@@ -37,11 +37,21 @@ body {
         height: $size;
         cursor: pointer;
         vertical-align: middle;
+        margin: 0 4px;
         &.btn-add {
             background-image: url('icons/ic_add_white_36dp_1x.png');
         }
         &.btn-remove {
             background-image: url('icons/ic_remove_white_36dp_1x.png');
+        }
+        &.btn-fullscreen {
+            background-image: url('icons/ic_fullscreen_white_36dp_1x.png');
+        }
+        &.btn-fullscreen-exit {
+            background-image: url('icons/ic_fullscreen_exit_white_36dp_1x.png');
+        }
+        &.hide {
+            display: none;
         }
     }
     .checkbox {
