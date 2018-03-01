@@ -8,6 +8,10 @@ Demo page: https://s1im05.github.io/panorama-viewer/
 
     npm install
     npm build
+    
+or
+    
+    npm build-production
 
 ## Usage
 
