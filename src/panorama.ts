@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {CAMERA_DEFAULT_FOV, CAMERA_MAX_FOCAL_LENGTH, CAMERA_MIN_FOCAL_LENGTH, PANORAMA_RADIUS} from './const';
+import {CAMERA_DEFAULT_FOV, CAMERA_MAX_FOCAL_LENGTH, CAMERA_MIN_FOCAL_LENGTH, PANORAMA_RADIUS, SKYBOX_SIZE} from './const';
 
 
 export class Panorama {
@@ -94,7 +94,7 @@ export class Panorama {
     }
 
     buildSkyBox() {
-        this._skyBox = new THREE.Mesh(new THREE.BoxGeometry(1000, 1000, 1000));
+        this._skyBox = new THREE.Mesh(new THREE.BoxGeometry(SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE));
         this._skyBox.geometry.scale(1, 1, -1);
         this.scene.add(this._skyBox);
     }
