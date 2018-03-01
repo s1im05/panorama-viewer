@@ -42,7 +42,7 @@ import {PANORAMA_TILES_ORDER} from './const';
     });
 
     window.addEventListener('resize', () => {
-        panorama.onResize();
+        panorama.resizeScene();
 
         let isFullScreen;
         if (document.webkitIsFullScreen !== undefined) {

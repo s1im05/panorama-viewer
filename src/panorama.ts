@@ -79,16 +79,18 @@ export class Panorama {
         this.camera.lookAt(this.cameraTarget);
     }
 
-    increaseFocalLength() {
+    increaseFocalLength(): number {
         if (this._focalLength < CAMERA_MAX_FOCAL_LENGTH) {
             this.camera.setFocalLength(++this._focalLength);
         }
+        return this.camera.getFocalLength();
     }
 
-    decreaseFocalLength() {
+    decreaseFocalLength(): number {
         if (this._focalLength > CAMERA_MIN_FOCAL_LENGTH) {
             this.camera.setFocalLength(--this._focalLength);
         }
+        return this.camera.getFocalLength();
     }
 
     buildSkyBox() {
@@ -110,7 +112,7 @@ export class Panorama {
         this._skyBox.material = new THREE.MultiMaterial(this._materials);
     }
 
-    onResize() {
+    resizeScene() {
         this.camera.aspect = this.containerEl.clientWidth / this.containerEl.clientHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.containerEl.clientWidth, this.containerEl.clientHeight);
