@@ -11,4 +11,6 @@ interface PanoramaState {
     onMouseDownLon: number;
     onMouseDownLat: number;
     animated: boolean;
+    orientationAlpha: number;
+    orientationBeta: number;
 }

@@ -16,7 +16,9 @@ export class Panorama {
         onMouseDownLat: 0,
         onMouseDownLon: 0,
         onMouseDownMouseX: 0,
-        onMouseDownMouseY: 0
+        onMouseDownMouseY: 0,
+        orientationAlpha: null,
+        orientationBeta: null
     };
     public isAnimated = false;
 
@@ -127,6 +129,8 @@ export class Panorama {
         this.containerEl.addEventListener('touchstart', this.touchStart.bind(this));
         this.containerEl.addEventListener('touchmove', this.touchMove.bind(this));
         this.containerEl.addEventListener('touchend', this.touchEnd.bind(this));
+
+        window.addEventListener('deviceorientation', this.handleOrientation.bind(this), true);
     }
 
     mouseDownHandler(e: MouseEvent) {
@@ -194,5 +198,14 @@ export class Panorama {
 
         this._userInteract = false;
         this.isAnimated = this.lastState.animated;
+    }
+
+    handleOrientation(e: DeviceOrientationEvent) {
+        if (this.lastState.orientationAlpha !== null && this.lastState.orientationBeta !== null) {
+            this.coordinates.lon += e.alpha - this.lastState.orientationAlpha;
+            this.coordinates.lat += e.beta - this.lastState.orientationBeta;
+        }
+        this.lastState.orientationAlpha = e.alpha;
+        this.lastState.orientationBeta = e.beta;
     }
 }
