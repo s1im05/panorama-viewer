@@ -202,8 +202,8 @@ export class Panorama {
 
     handleOrientation(e: DeviceOrientationEvent) {
         if (this.lastState.orientationAlpha !== null && this.lastState.orientationBeta !== null) {
-            this.coordinates.lon += e.alpha - this.lastState.orientationAlpha;
-            this.coordinates.lat += e.beta - this.lastState.orientationBeta;
+            this.coordinates.lon += (e.alpha - this.lastState.orientationAlpha) % 360;
+            this.coordinates.lat += (e.beta - this.lastState.orientationBeta) % 180;
         }
         this.lastState.orientationAlpha = e.alpha;
         this.lastState.orientationBeta = e.beta;
